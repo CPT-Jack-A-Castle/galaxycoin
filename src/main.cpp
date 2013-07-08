@@ -1003,9 +1003,7 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
 	if(pindexLast->nHeight < (nTargetInterval + 1))
         return bnTargetLimit.GetCompact(); 
 
-	if(pindexLast->nHeight < 750)
-	{
-		int blockstogoback = nTargetInterval;
+	int blockstogoback = nTargetInterval;
 
 		const CBlockIndex* pindexFirst = pindexLast;
 		for (int i = 0; pindexFirst && i < blockstogoback; i++)
@@ -1031,19 +1029,7 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
 		printf("nHeight = %d, nTargetTimespan = %"PRI64d", nActualTimespan = %"PRI64d"\n", pindexLast->nHeight, nTargetTimespan, nActualTimespan);
 		// printf("Before: %08x  %s\n", pindexLast->nBits, CBigNum().SetCompact(pindexLast->nBits).getuint256().ToString().c_str());
 		// printf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
-	}
-	else	// ppcoin algo
-	{
-		const CBlockIndex* pindexPrev = GetLastBlockIndex(pindexLast, fProofOfStake);
-		const CBlockIndex* pindexPrevPrev = GetLastBlockIndex(pindexPrev->pprev, fProofOfStake);
-		int64 nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime();
 
-		bnNew.SetCompact(pindexPrev->nBits);
-		int64 nTargetSpacing0 = fProofOfStake? nTargetSpacing : min(nTargetSpacingWorkMax, (int64) nTargetSpacing * (1 + pindexLast->nHeight - pindexPrev->nHeight));
-		int64 nInterval = nTargetTimespan / nTargetSpacing0;
-		bnNew *= ((nInterval - 1) * nTargetSpacing0 + nActualSpacing + nActualSpacing);
-		bnNew /= ((nInterval + 1) * nTargetSpacing0);
-	}
 
 	if (bnNew > bnTargetLimit)
 		bnNew = bnTargetLimit;
