@@ -15,12 +15,6 @@ extern int nStakeMaxAge;
 static std::map<int, unsigned int> mapStakeModifierCheckpoints =
     boost::assign::map_list_of
         ( 0, 0x0e00670bu )
-        ( 6000, 0xb7cbc5d3u )
-        ( 9690, 0x97dcdafau )
-        ( 12661, 0x5d84115du )
-        ( 19600, 0xdded1b8du )
-        ( 21800, 0x0daa1aaau )
-        ( 26174, 0xaf9983dcu )
     ;
 
 // Get the last stake modifier and its generation time from a given block
