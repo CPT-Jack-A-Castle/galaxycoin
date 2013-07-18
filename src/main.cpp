@@ -868,10 +868,6 @@ bool GetTransaction(const uint256 &hash, CTransaction &tx, uint256 &hashBlock)
 
 
 
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////
 //
 // CBlock and CBlockIndex
@@ -1012,7 +1008,7 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
 
 		// Limit adjustment step, this should be enough since it is continuous adjustment, max twice or half
 		int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
-		printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
+		// printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
 
 		if (nActualTimespan < nTargetTimespan/2)
 			nActualTimespan = nTargetTimespan/2;
@@ -1026,7 +1022,7 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
 
 		/// debug print
 		// printf("GetNextWorkRequired RETARGET\n");
-		printf("nHeight = %d, nTargetTimespan = %"PRI64d", nActualTimespan = %"PRI64d"\n", pindexLast->nHeight, nTargetTimespan, nActualTimespan);
+		// printf("nHeight = %d, nTargetTimespan = %"PRI64d", nActualTimespan = %"PRI64d"\n", pindexLast->nHeight, nTargetTimespan, nActualTimespan);
 		// printf("Before: %08x  %s\n", pindexLast->nBits, CBigNum().SetCompact(pindexLast->nBits).getuint256().ToString().c_str());
 		// printf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
 
@@ -1780,7 +1776,7 @@ bool CBlock::SetBestChain(CTxDB& txdb, CBlockIndex* pindexNew)
     CBigNum bnBestBlockTrust = pindexBest->nHeight != 0 ? (pindexBest->bnChainTrust - pindexBest->pprev->bnChainTrust) : pindexBest->bnChainTrust;
 
     printf("SetBestChain: new best=%s  height=%d  trust=%s  blocktrust=%s  date=%s\n",
-      hashBestChain.ToString().substr(0,20).c_str(), nBestHeight, bnBestChainTrust.ToString().c_str(),
+      hashBestChain.ToString().c_str(), nBestHeight, bnBestChainTrust.ToString().c_str(),
       bnBestBlockTrust.ToString().c_str(),
       DateTimeStrFormat("%x %H:%M:%S", pindexBest->GetBlockTime()).c_str());
 
