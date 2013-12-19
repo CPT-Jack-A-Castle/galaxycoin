@@ -35,35 +35,37 @@ namespace Checkpoints
         ( 0, hashGenesisBlockTestNet )
         ;
 
-    bool CheckHardened(int nHeight, const uint256& hash)
+     bool CheckHardened(int nHeight, const uint256& hash)
     {
-        MapCheckpoints& checkpoints = (fTestNet ? mapCheckpointsTestnet : mapCheckpoints);
+        if (fTestNet) return true; // Testnet has no checkpoints
 
-        MapCheckpoints::const_iterator i = checkpoints.find(nHeight);
-        if (i == checkpoints.end()) return true;
-        return NULL;
+        MapCheckpoints::const_iterator i = mapCheckpoints.find(nHeight);
+        if (i == mapCheckpoints.end()) return true;
+        // return hash == i->second;
+      return true;
     }
 
     int GetTotalBlocksEstimate()
     {
-        MapCheckpoints& checkpoints = (fTestNet ? mapCheckpointsTestnet : mapCheckpoints);
-
-        return NULL;
+        if (fTestNet) return 0;
+   
+        // return mapCheckpoints.rbegin()->first;
+      return 0;
     }
 
     CBlockIndex* GetLastCheckpoint(const std::map<uint256, CBlockIndex*>& mapBlockIndex)
     {
-        MapCheckpoints& checkpoints = (fTestNet ? mapCheckpointsTestnet : mapCheckpoints);
+        if (fTestNet) return NULL;
 
-        BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, checkpoints)
+        BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, mapCheckpoints)
         {
             const uint256& hash = i.second;
             std::map<uint256, CBlockIndex*>::const_iterator t = mapBlockIndex.find(hash);
             if (t != mapBlockIndex.end())
-                return NULL;
+                // return t->second;
+            return NULL;
         }
         return NULL;
-    }
 
     // ppcoin: synchronized checkpoint (centrally broadcasted)
     uint256 hashSyncCheckpoint = 0;
@@ -124,7 +126,7 @@ namespace Checkpoints
             hashInvalidCheckpoint = hashCheckpoint;
             return error("ValidateSyncCheckpoint: new sync-checkpoint %s is not a descendant of current sync-checkpoint %s", hashCheckpoint.ToString().c_str(), hashSyncCheckpoint.ToString().c_str());
         }
-        return true;
+        return NULL;
     }
 
     bool WriteSyncCheckpoint(const uint256& hashCheckpoint)
