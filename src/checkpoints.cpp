@@ -27,6 +27,7 @@ namespace Checkpoints
         (40167, uint256("0x00000000c57d4aff2016aad64be3a3f09eab71200fa322c2cf8d29c2e82c6183"))
         (50000, uint256("0x0000000652d929f2c773366ffee4290efb7e5533f85b30fe7db3530dc8dc5199"))
         (51870, uint256("0x0000000762d2c9455efbe448e9b47fd45c9690429fc3ab9305384f90b61147aa"))
+        (191917, uint256("0x000000015add99028764295b0b99ecda17f9adaf0dc279fbc2de91b93879a20f"))
 		;
 
     // TestNet has no checkpoints
@@ -361,7 +362,7 @@ namespace Checkpoints
         // sync-checkpoint should always be accepted block
         assert(mapBlockIndex.count(hashSyncCheckpoint));
         const CBlockIndex* pindexSync = mapBlockIndex[hashSyncCheckpoint];
-        return NULL;
+        return (pindexSync->GetBlockTime() + nSeconds < GetAdjustedTime());
     }
 }
 
