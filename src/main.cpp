@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
+// Copyright (c) 2014 Galaxycoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -943,7 +944,7 @@ int64 GetProofOfStakeReward(int64 nCoinAge, unsigned int nBits, unsigned int nTi
     int64 nRewardCoinYear;
 
     // Old creation amount per coin-year, 5% fixed stake mint rate
-	nRewardCoinYear = 0.5 * CENT;
+	nRewardCoinYear = nBestHeight >= 255145 ? 0.5 * CENT : nRewardCoinYear = 5 * CENT;
 
     int64 nSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nRewardCoinYear;
     if (fDebug && GetBoolArg("-printcreation"))
@@ -3051,6 +3052,14 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
             vRecv >> addrFrom >> nNonce;
         if (!vRecv.empty())
             vRecv >> pfrom->strSubVer;
+
+        if (!strcmp(pfrom->strSubVer.c_str(),"/Satoshi:0.7.4/"))
+        {
+            printf("partner %s using obsolete client %s\n", pfrom->addr.ToString().c_str(), pfrom->strSubVer.c_str());
+            pfrom->fDisconnect = true;
+            return false;
+        }
+
         if (!vRecv.empty())
             vRecv >> pfrom->nStartingHeight;
 
@@ -4505,4 +4514,3 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
         }
     }
 }
-
