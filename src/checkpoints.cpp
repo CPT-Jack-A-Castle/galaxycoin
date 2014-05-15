@@ -31,14 +31,14 @@ namespace Checkpoints
         (249389, uint256("0x00000001e275ea7cefe8c2158154cca5e72d7bca8ba8194bb35e4716b080219b"))
         (300007, unit256("00000001a38d9cef01978632bee4c9d7ae06f1f7d312ba9f97e63f351b04cb6e"))
 	;
-    static const CCheckpointData data = {
+    static const CheckpointData data = {
     	&mapCheckpoints,
     	1402291952,
     	3113946,
     	2000.0
     };
     
-    const CCheckpointData &Checkpoints() {
+    const CheckpointData &Checkpoints() {
        return data;
     }
 
