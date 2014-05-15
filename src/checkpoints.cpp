@@ -15,6 +15,15 @@ namespace Checkpoints
 {
     typedef std::map<int, uint256> MapCheckpoints;
 
+    static const double fSigcheckVerificationFactor = 5.0;
+
+ struct CCheckpointData {
+     const MapCheckpoints *mapCheckpoints;
+     int64 nTimeLastCheckpoint;
+     int64 nTransactionsLastCheckpoint;
+     double fTransactionsPerDay;
+ };
+
     //
     static MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
