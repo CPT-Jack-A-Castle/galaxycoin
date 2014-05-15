@@ -44,7 +44,13 @@ namespace Checkpoints
     
     bool CheckBlock(int nHeight, const uint256& hash)
     {
-
+	if (fTestNet) return true;
+	
+	MapCheckpoints::const_iterator i = mapCheckpoints.find(nHeight);
+        if (i == mapCheckpoints.end()) return true;
+        return hash == i->second;
+    }
+    
     // TestNet has no checkpoints
     static MapCheckpoints mapCheckpointsTestnet =
         boost::assign::map_list_of
