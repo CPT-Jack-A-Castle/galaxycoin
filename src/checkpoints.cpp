@@ -28,9 +28,29 @@ namespace Checkpoints
         (50000, uint256("0x0000000652d929f2c773366ffee4290efb7e5533f85b30fe7db3530dc8dc5199"))
         (51870, uint256("0x0000000762d2c9455efbe448e9b47fd45c9690429fc3ab9305384f90b61147aa"))
         (191917, uint256("0x000000015add99028764295b0b99ecda17f9adaf0dc279fbc2de91b93879a20f"))
-        (249384, uint256("0x000000000bd92a6b0dd4286c680d96d181d7e887882cae79c6bfa52a6fc1db40"))
-		;
-
+        (249389, uint256("0x00000001e275ea7cefe8c2158154cca5e72d7bca8ba8194bb35e4716b080219b"))
+        (300007, unit256("00000001a38d9cef01978632bee4c9d7ae06f1f7d312ba9f97e63f351b04cb6e"))
+	;
+    static const CCheckpointData data = {
+    	 &mapCheckpoints,
+    	 1402291952,
+    	 3113946,
+    	 2000.0
+    };
+    
+    const CCheckpointData &Checkpoints() {
+    	return data;
+    }
+    
+    bool CheckBlock(int nHeight, const uint256& hash)
+    {
+	if (fTestNet) return true;
+	
+	MapCheckpoints::const_iterator i = mapCheckpoints.find(nHeight);
+        if (i == mapCheckpoints.end()) return true;
+        return hash == i->second;
+    }
+    
     // TestNet has no checkpoints
     static MapCheckpoints mapCheckpointsTestnet =
         boost::assign::map_list_of
